@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:solitaire_flutter/card_column.dart';
 import 'package:solitaire_flutter/empty_card.dart';
 import 'package:solitaire_flutter/playing_card.dart';
+import 'package:solitaire_flutter/purchase_screen.dart';
 import 'package:solitaire_flutter/transformed_card.dart';
 
 class GameScreen extends StatefulWidget {
@@ -42,7 +43,7 @@ class _GameScreenState extends State<GameScreen> {
     return Scaffold(
       backgroundColor: Colors.green,
       appBar: AppBar(
-        title: Text("Flutter Solitaire"),
+        title: Text("Green Solitaire"),
         elevation: 0.0,
         backgroundColor: Colors.green,
         actions: <Widget>[
@@ -184,6 +185,16 @@ class _GameScreenState extends State<GameScreen> {
             ],
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.shopping_cart),
+          backgroundColor: Colors.red,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PurchaseScreen()),
+            );
+          }
       ),
     );
   }
