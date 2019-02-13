@@ -20,6 +20,16 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
           'product_id_7',
           'product_id_8',
           'product_id_9',
+          'product_id_10',
+          'product_id_11',
+          'product_id_12',
+          'product_id_13',
+          'product_id_14',
+          'product_id_15',
+          'product_id_16',
+          'product_id_17',
+          'product_id_18',
+          'product_id_19',
         ]
       : ['com.cooni.point1000', 'com.cooni.point5000'];
   String _platformVersion = 'Unknown';
@@ -70,15 +80,27 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
     await FlutterInappPurchase.endConnection;
   }
 
-  Future<Null> _buyProduct(IAPItem item) async {
+  Future<Null> _buyProduct(IAPItem item, BuildContext context) async {
+    showToast("Begin purchase", context);
     try {
       PurchasedItem purchased =
           await FlutterInappPurchase.buyProduct(item.productId);
+      showToast("Purchase Successfully", context);
+
       String msg = await FlutterInappPurchase.consumeAllItems;
-      print('purcuased - ${purchased.toString()}');
+      showToast("Consume Successfully", context);
     } catch (error) {
-      print('$error');
+      showToast('$error', context);
     }
+  }
+
+  void showToast(String text, BuildContext context) {
+    final scaffold = Scaffold.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(text),
+      ),
+    );
   }
 
   Future<Null> _getProduct() async {
@@ -93,48 +115,6 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
     });
   }
 
-  _renderInapps() {
-    List<Widget> widgets = this
-        ._items
-        .map((item) => Container(
-              margin: EdgeInsets.symmetric(vertical: 10.0),
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(bottom: 5.0),
-                      child: Text(
-                        item.toString(),
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    FlatButton(
-                      color: Colors.orange,
-                      onPressed: () {
-                        this._buyProduct(item);
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              height: 48.0,
-                              alignment: Alignment(-1.0, 0.0),
-                              child: Text('Buy Item'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ))
-        .toList();
-    return widgets;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,30 +125,16 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
         ),
         body: Container(
           padding: EdgeInsets.all(10.0),
-//          child: ListView(
-//            children: <Widget>[
-//              Column(
-//                crossAxisAlignment: CrossAxisAlignment.start,
-//                mainAxisAlignment: MainAxisAlignment.start,
-//                children: <Widget>[
-////                  Column(
-////                    children: this._renderInapps(),
-////                  ),
-//
-//                ],
-//              ),
-//            ],
-//          ),
-        child: ListView.builder(
-          itemCount: this._items.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text('${this._items[index].title}'),
-              subtitle: Text('${this._items[index].localizedPrice}'),
-              onTap: ()=> this._buyProduct(this._items[index]),
-            );
-          },
-        ),
+          child: ListView.builder(
+            itemCount: this._items.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text('${this._items[index].title}'),
+                subtitle: Text('${this._items[index].localizedPrice}'),
+                onTap: () => this._buyProduct(this._items[index], context),
+              );
+            },
+          ),
         ),
       ),
     );
