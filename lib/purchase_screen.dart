@@ -55,7 +55,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
 
     // initConnection
     var result = await FlutterInappPurchase.initConnection;
-    print('result: $result');
+//    print('result: $result');
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
@@ -68,7 +68,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
 
     // refresh items for android
     String msg = await FlutterInappPurchase.consumeAllItems;
-    print('consumeAllItems: $msg');
+//    print('consumeAllItems: $msg');
 
     this._getProduct();
   }
@@ -106,7 +106,7 @@ class _PurchaseScreenState extends State<PurchaseScreen> {
   Future<Null> _getProduct() async {
     List<IAPItem> items = await FlutterInappPurchase.getProducts(_productLists);
     for (var item in items) {
-      print('${item.toString()}');
+//      print('${item.toString()}');
       this._items.add(item);
     }
 
